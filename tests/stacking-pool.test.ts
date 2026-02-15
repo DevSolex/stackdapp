@@ -74,3 +74,52 @@ describe("stacking-pool deposit", () => {
     expect(total.result).toBeOk(Cl.uint(amount));
   });
 });
+
+describe("stacking-pool withdraw", () => {
+  it("rejects zero amount", () => {
+    const res = simnet.callPublicFn(
+      contractName,
+      "withdraw",
+      [Cl.uint(0)],
+      wallet1
+    );
+    expect(res.result).toBeErr(Cl.uint(100));
+  });
+
+  it("rejects withdraw exceeding balance", () => {
+    const res = simnet.callPublicFn(
+      contractName,
+      "withdraw",
+      [Cl.uint(1_000_000)],
+      wallet2
+    );
+    expect(res.result).toBeErr(Cl.uint(101));
+  });
+
+  it("withdraws STX and updates balance and total", () => {
+    simnet.callPublicFn(contractName, "deposit", [Cl.uint(2_000_000)], wallet1);
+
+    const res = simnet.callPublicFn(
+      contractName,
+      "withdraw",
+      [Cl.uint(500_000)],
+      wallet1
+    );
+    expect(res.result).toBeOk(Cl.uint(500_000));
+
+    const balance = simnet.callReadOnlyFn(
+      contractName,
+      "get-balance",
+      [Cl.principal(wallet1)],
+      deployer
+    );
+    expect(balance.result).toBeOk(Cl.uint(1_500_000));
+    const total = simnet.callReadOnlyFn(
+      contractName,
+      "get-total-stacked",
+      [],
+      deployer
+    );
+    expect(total.result).toBeOk(Cl.uint(1_500_000));
+  });
+});
