@@ -8,3 +8,4 @@ export * from "./parse-amount.js";
 export * from "./withdraw-payload.js";
 export * from "./types.js";
 export * from "./connect-options.js";
+export * from "./validate-amount.js";
