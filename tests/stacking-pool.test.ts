@@ -243,3 +243,25 @@ describe("stacking-pool current-cycle", () => {
     expect(cycle.result).toBeOk(Cl.uint(5));
   });
 });
+
+describe("stacking-pool multiple deposits", () => {
+  it("accumulates balance across multiple deposits from same user", () => {
+    simnet.callPublicFn(contractName, "deposit", [Cl.uint(100_000)], wallet1);
+    simnet.callPublicFn(contractName, "deposit", [Cl.uint(200_000)], wallet1);
+    simnet.callPublicFn(contractName, "deposit", [Cl.uint(300_000)], wallet1);
+    const balance = simnet.callReadOnlyFn(
+      contractName,
+      "get-balance",
+      [Cl.principal(wallet1)],
+      deployer
+    );
+    expect(balance.result).toBeOk(Cl.uint(600_000));
+    const total = simnet.callReadOnlyFn(
+      contractName,
+      "get-total-stacked",
+      [],
+      deployer
+    );
+    expect(total.result).toBeOk(Cl.uint(600_000));
+  });
+});
