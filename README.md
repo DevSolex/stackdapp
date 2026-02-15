@@ -31,3 +31,19 @@ npm test
 ### stacking-pool
 
 A custodial-style pool where users deposit STX. The contract tracks each user's balance and total stacked STX. Reward share is computed as `(user_balance / total_stacked) * 10000` (basis points). The pool operator can update the current cycle and transfer the operator role.
+
+## Using @stacks/connect and @stacks/transactions
+
+This repo uses **@stacks/connect** for wallet connection and **@stacks/transactions** for building contract call payloads.
+
+- **`src/stacking-pool-tx.ts`** — builds `deposit` and `withdraw` contract call transactions with `makeContractCall` and `createContractCallPayload` from `@stacks/transactions`.
+- **`src/connect-wallet.ts`** — uses `connect()` from `@stacks/connect` and imports the payload builders for use in the browser.
+
+Example: build a deposit payload and let the user sign via Connect:
+
+```ts
+import { buildDepositPayload } from "./src/stacking-pool-tx.js";
+import { connect } from "@stacks/connect";
+```
+
+Install with `npm install`; both packages are in `package.json` dependencies.
