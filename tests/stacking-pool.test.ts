@@ -285,3 +285,24 @@ describe("stacking-pool full withdraw", () => {
     expect(balance.result).toBeOk(Cl.uint(0));
   });
 });
+
+describe("stacking-pool reward-share after changes", () => {
+  it("updates reward share when another user deposits", () => {
+    simnet.callPublicFn(contractName, "deposit", [Cl.uint(1_000_000)], wallet1);
+    const share1Before = simnet.callReadOnlyFn(
+      contractName,
+      "get-reward-share",
+      [Cl.principal(wallet1)],
+      deployer
+    );
+    expect(share1Before.result).toBeOk(Cl.uint(10000));
+    simnet.callPublicFn(contractName, "deposit", [Cl.uint(1_000_000)], wallet2);
+    const share1After = simnet.callReadOnlyFn(
+      contractName,
+      "get-reward-share",
+      [Cl.principal(wallet1)],
+      deployer
+    );
+    expect(share1After.result).toBeOk(Cl.uint(5000));
+  });
+});
