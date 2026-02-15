@@ -32,3 +32,38 @@
 
 (define-read-only (get-current-cycle)
   (var-get current-cycle))
+
+(define-public (set-pool-operator (new-operator principal))
+  (asserts! (is-eq (tx-sender) (var-get pool-operator)) err-not-pool-operator)
+  (var-set pool-operator new-operator)
+  (ok true))
+
+(define-public (set-current-cycle (cycle uint))
+  (asserts! (is-eq (tx-sender) (var-get pool-operator)) err-not-pool-operator)
+  (var-set current-cycle cycle)
+  (ok true))
+
+;; Deposit STX into the stacking pool. Increases your share of rewards.
+(define-public (deposit (amount-ustx uint))
+  (let ((sender (tx-sender)))
+    (asserts! (is-gt amount-ustx u0) err-amount-zero)
+    (asserts!
+      (stx-transfer? amount-ustx sender (as-contract (tx-sender)))
+      err-transfer-failed)
+    (var-set total-stacked (+ (var-get total-stacked) amount-ustx))
+    (map-set stacked-balance sender
+      (+ (default-to u0 (map-get? stacked-balance sender)) amount-ustx))
+    (ok amount-ustx)))
+
+;; Withdraw STX from the pool. Decreases your share.
+(define-public (withdraw (amount-ustx uint))
+  (let ((sender (tx-sender))
+        (balance (default-to u0 (map-get? stacked-balance sender))))
+    (asserts! (is-gt amount-ustx u0) err-amount-zero)
+    (asserts! (is-geq balance amount-ustx) err-insufficient-balance)
+    (asserts!
+      (as-contract (stx-transfer? amount-ustx (tx-sender) sender))
+      err-transfer-failed)
+    (var-set total-stacked (- (var-get total-stacked) amount-ustx))
+    (map-set stacked-balance sender (- balance amount-ustx))
+    (ok amount-ustx)))
