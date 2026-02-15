@@ -7,3 +7,4 @@ export * from "./constants.js";
 export * from "./parse-amount.js";
 export * from "./withdraw-payload.js";
 export * from "./types.js";
+export * from "./connect-options.js";
