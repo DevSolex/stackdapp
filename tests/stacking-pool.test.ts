@@ -204,3 +204,42 @@ describe("stacking-pool pool-operator", () => {
     expect(check.result).toBeOk(Cl.bool(true));
   });
 });
+
+describe("stacking-pool current-cycle", () => {
+  it("returns initial cycle 1", () => {
+    const res = simnet.callReadOnlyFn(
+      contractName,
+      "get-current-cycle",
+      [],
+      deployer
+    );
+    expect(res.result).toBeOk(Cl.uint(1));
+  });
+
+  it("non-operator cannot set current cycle", () => {
+    const res = simnet.callPublicFn(
+      contractName,
+      "set-current-cycle",
+      [Cl.uint(5)],
+      wallet2
+    );
+    expect(res.result).toBeErr(Cl.uint(102));
+  });
+
+  it("operator can set current cycle", () => {
+    const res = simnet.callPublicFn(
+      contractName,
+      "set-current-cycle",
+      [Cl.uint(5)],
+      deployer
+    );
+    expect(res.result).toBeOk(Cl.bool(true));
+    const cycle = simnet.callReadOnlyFn(
+      contractName,
+      "get-current-cycle",
+      [],
+      deployer
+    );
+    expect(cycle.result).toBeOk(Cl.uint(5));
+  });
+});
