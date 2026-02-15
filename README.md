@@ -48,6 +48,10 @@ import { connect } from "@stacks/connect";
 
 Install with `npm install`; both packages are in `package.json` dependencies.
 
+## @stacks/connect and @stacks/transactions
+
+This repo uses **@stacks/connect** and **@stacks/transactions** in src/, examples/, and docs. See COMMITS.md and README-EXAMPLES.md.
+
 ## Deployment
 
 Deploy the `stacking-pool` contract with Clarinet to Devnet, Testnet, or Mainnet. Set `STACKING_POOL_CONTRACT_ADDRESS` in your app (e.g. from `.env`) and use `src/stacking-pool-tx.ts` with your deployed contract address.
