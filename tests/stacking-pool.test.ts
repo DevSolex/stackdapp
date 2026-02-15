@@ -165,3 +165,42 @@ describe("stacking-pool reward-share", () => {
     expect(share2.result).toBeOk(Cl.uint(2500));
   });
 });
+
+describe("stacking-pool pool-operator", () => {
+  it("deployer is pool operator initially", () => {
+    const res = simnet.callReadOnlyFn(
+      contractName,
+      "is-pool-operator",
+      [Cl.principal(deployer)],
+      deployer
+    );
+    expect(res.result).toBeOk(Cl.bool(true));
+  });
+
+  it("non-operator cannot set pool operator", () => {
+    const res = simnet.callPublicFn(
+      contractName,
+      "set-pool-operator",
+      [Cl.principal(wallet1)],
+      wallet1
+    );
+    expect(res.result).toBeErr(Cl.uint(102));
+  });
+
+  it("operator can set new pool operator", () => {
+    const res = simnet.callPublicFn(
+      contractName,
+      "set-pool-operator",
+      [Cl.principal(wallet1)],
+      deployer
+    );
+    expect(res.result).toBeOk(Cl.bool(true));
+    const check = simnet.callReadOnlyFn(
+      contractName,
+      "is-pool-operator",
+      [Cl.principal(wallet1)],
+      deployer
+    );
+    expect(check.result).toBeOk(Cl.bool(true));
+  });
+});
