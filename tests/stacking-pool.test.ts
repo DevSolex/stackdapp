@@ -265,3 +265,23 @@ describe("stacking-pool multiple deposits", () => {
     expect(total.result).toBeOk(Cl.uint(600_000));
   });
 });
+
+describe("stacking-pool full withdraw", () => {
+  it("allows withdrawing entire balance and leaves zero", () => {
+    simnet.callPublicFn(contractName, "deposit", [Cl.uint(500_000)], wallet2);
+    const res = simnet.callPublicFn(
+      contractName,
+      "withdraw",
+      [Cl.uint(500_000)],
+      wallet2
+    );
+    expect(res.result).toBeOk(Cl.uint(500_000));
+    const balance = simnet.callReadOnlyFn(
+      contractName,
+      "get-balance",
+      [Cl.principal(wallet2)],
+      deployer
+    );
+    expect(balance.result).toBeOk(Cl.uint(0));
+  });
+});
