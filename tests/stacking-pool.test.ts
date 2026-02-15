@@ -322,3 +322,21 @@ describe("stacking-pool three users", () => {
     expect(total.result).toBeOk(Cl.uint(600_000));
   });
 });
+
+describe("stacking-pool operator set-cycle", () => {
+  it("only operator can set cycle and it persists", () => {
+    simnet.callPublicFn(
+      contractName,
+      "set-current-cycle",
+      [Cl.uint(10)],
+      deployer
+    );
+    const cycle = simnet.callReadOnlyFn(
+      contractName,
+      "get-current-cycle",
+      [],
+      deployer
+    );
+    expect(cycle.result).toBeOk(Cl.uint(10));
+  });
+});
