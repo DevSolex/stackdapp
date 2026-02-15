@@ -306,3 +306,19 @@ describe("stacking-pool reward-share after changes", () => {
     expect(share1After.result).toBeOk(Cl.uint(5000));
   });
 });
+
+describe("stacking-pool three users", () => {
+  it("tracks three depositors and correct total", () => {
+    const w3 = accounts.get("wallet_3")!;
+    simnet.callPublicFn(contractName, "deposit", [Cl.uint(100_000)], wallet1);
+    simnet.callPublicFn(contractName, "deposit", [Cl.uint(200_000)], wallet2);
+    simnet.callPublicFn(contractName, "deposit", [Cl.uint(300_000)], w3);
+    const total = simnet.callReadOnlyFn(
+      contractName,
+      "get-total-stacked",
+      [],
+      deployer
+    );
+    expect(total.result).toBeOk(Cl.uint(600_000));
+  });
+});
