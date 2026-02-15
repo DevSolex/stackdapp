@@ -123,3 +123,45 @@ describe("stacking-pool withdraw", () => {
     expect(total.result).toBeOk(Cl.uint(1_500_000));
   });
 });
+
+describe("stacking-pool reward-share", () => {
+  it("returns 0 when total stacked is zero", () => {
+    const res = simnet.callReadOnlyFn(
+      contractName,
+      "get-reward-share",
+      [Cl.principal(wallet1)],
+      deployer
+    );
+    expect(res.result).toBeOk(Cl.uint(0));
+  });
+
+  it("returns 10000 (100%) for sole depositor", () => {
+    simnet.callPublicFn(contractName, "deposit", [Cl.uint(1_000_000)], wallet1);
+    const res = simnet.callReadOnlyFn(
+      contractName,
+      "get-reward-share",
+      [Cl.principal(wallet1)],
+      deployer
+    );
+    expect(res.result).toBeOk(Cl.uint(10000));
+  });
+
+  it("splits share proportionally between two depositors", () => {
+    simnet.callPublicFn(contractName, "deposit", [Cl.uint(3_000_000)], wallet1);
+    simnet.callPublicFn(contractName, "deposit", [Cl.uint(1_000_000)], wallet2);
+    const share1 = simnet.callReadOnlyFn(
+      contractName,
+      "get-reward-share",
+      [Cl.principal(wallet1)],
+      deployer
+    );
+    const share2 = simnet.callReadOnlyFn(
+      contractName,
+      "get-reward-share",
+      [Cl.principal(wallet2)],
+      deployer
+    );
+    expect(share1.result).toBeOk(Cl.uint(7500));
+    expect(share2.result).toBeOk(Cl.uint(2500));
+  });
+});
