@@ -50,7 +50,7 @@ Install with `npm install`; both packages are in `package.json` dependencies.
 
 ## @stacks/connect and @stacks/transactions
 
-This repo uses **@stacks/connect** and **@stacks/transactions** in src/, examples/, and docs. See COMMITS.md and README-EXAMPLES.md.
+This repo uses **@stacks/connect** and **@stacks/transactions** in src/, examples/, and docs. See COMMITS.md and README-EXAMPLES.md. All examples use both packages.
 
 ## Deployment
 
