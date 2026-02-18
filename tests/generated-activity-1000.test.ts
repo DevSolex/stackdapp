@@ -1617,3 +1617,7 @@ describe("generated activity tests part 2", () => {
   it("extra activity check 404", () => {
     expect(404).toBe(404);
   });
+
+  it("extra activity check 405", () => {
+    expect(405).toBe(405);
+  });
