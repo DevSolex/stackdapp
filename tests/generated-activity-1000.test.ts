@@ -85,3 +85,7 @@ describe("generated activity tests part 2", () => {
   it("extra activity check 21", () => {
     expect(21).toBe(21);
   });
+
+  it("extra activity check 22", () => {
+    expect(22).toBe(22);
+  });
