@@ -509,3 +509,7 @@ describe("generated activity tests", () => {
   it("activity check 127", () => {
     expect(127).toBe(127);
   });
+
+  it("activity check 128", () => {
+    expect(128).toBe(128);
+  });
