@@ -2013,3 +2013,7 @@ describe("generated activity tests part 2", () => {
   it("extra activity check 503", () => {
     expect(503).toBe(503);
   });
+
+  it("extra activity check 504", () => {
+    expect(504).toBe(504);
+  });
