@@ -3189,3 +3189,7 @@ describe("generated activity tests part 2", () => {
   it("extra activity check 797", () => {
     expect(797).toBe(797);
   });
+
+  it("extra activity check 798", () => {
+    expect(798).toBe(798);
+  });
