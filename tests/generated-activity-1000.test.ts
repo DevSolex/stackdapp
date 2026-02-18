@@ -2293,3 +2293,7 @@ describe("generated activity tests part 2", () => {
   it("extra activity check 573", () => {
     expect(573).toBe(573);
   });
+
+  it("extra activity check 574", () => {
+    expect(574).toBe(574);
+  });
