@@ -1629,3 +1629,7 @@ describe("generated activity tests part 2", () => {
   it("extra activity check 407", () => {
     expect(407).toBe(407);
   });
+
+  it("extra activity check 408", () => {
+    expect(408).toBe(408);
+  });
