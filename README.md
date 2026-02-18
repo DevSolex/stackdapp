@@ -27,6 +27,18 @@ npm test
 - `settings/` — Devnet, Testnet, Mainnet configs
 
 ## Contracts
+### mini-coin (SIP-10)
+
+A simple fungible token used as a reward for the mini-game.
+- **Name**: Mini Coin
+- **Symbol**: MINI
+- **Decimals**: 6
+
+### simple-game
+
+A Play-to-Earn contract.
+- **Function `play`**: Calling this function rewards the user with 10 MINI tokens.
+
 
 ### stacking-pool
 

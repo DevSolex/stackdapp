@@ -9,6 +9,14 @@ cache_dir = "./.cache"
 path = "contracts/stacking-pool.clar"
 epoch = "latest"
 
+[contracts.mini-coin]
+path = "contracts/mini-coin.clar"
+epoch = "latest"
+
+[contracts.simple-game]
+path = "contracts/simple-game.clar"
+epoch = "latest"
+
 [repl.analysis]
 passes = ["check_checker"]
 check_checker = { trusted_sender = false, trusted_caller = false, callee_filter = false }
