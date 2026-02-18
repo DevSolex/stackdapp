@@ -3213,3 +3213,7 @@ describe("generated activity tests part 2", () => {
   it("extra activity check 803", () => {
     expect(803).toBe(803);
   });
+
+  it("extra activity check 804", () => {
+    expect(804).toBe(804);
+  });
